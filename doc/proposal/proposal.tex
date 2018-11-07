@@ -1,0 +1,109 @@
+%
+% File acl2018.tex
+%
+%% Based on the style files for ACL-2017, with some changes, which were, in turn,
+%% Based on the style files for ACL-2015, with some improvements
+%%  taken from the NAACL-2016 style
+%% Based on the style files for ACL-2014, which were, in turn,
+%% based on ACL-2013, ACL-2012, ACL-2011, ACL-2010, ACL-IJCNLP-2009,
+%% EACL-2009, IJCNLP-2008...
+%% Based on the style files for EACL 2006 by 
+%%e.agirre@ehu.es or Sergi.Balari@uab.es
+%% and that of ACL 08 by Joakim Nivre and Noah Smith
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2018}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{url}
+
+\aclfinalcopy % Uncomment this line for the final submission
+%\def\aclpaperid{***} %  Enter the acl Paper ID here
+
+%\setlength\titlebox{5cm}
+% You can expand the titlebox if you need extra space
+% to show all the authors. Please do not make the titlebox
+% smaller than 5cm (the original size); we will check this
+% in the camera-ready version and ask you to change it back.
+
+\newcommand\BibTeX{B{\sc ib}\TeX}
+
+\title{Topic Enhanced Language Model (Proposal)}
+
+\author{Ao Liu\\
+  University of Massachusetts Amherst\\
+  College of Information and Computer Science\\
+  {\tt aoliu@cs.umass.edu}
+  }
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  We want to design a novel language model that is capable of capturing local semantics, which we view as a subset of global semantics, in order to help predicting the next word given some context. Traditional RNN-based language models are good at capturing the local syntactic structures of a word sequence, but difficult to remember global semantic dependencies due to the vanishing gradient problem. However, such semantics can be learn by a topic model. We can take the advantages of unsupervised topic models to enable language models having better expressiveness. The proposed model can have more capacity to model natural language and potentially benefit downstream tasks, such as producing highly contextualized word embeddings, text generation and document ontology classification and ranking.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+Statistical language modelling has evolved from traditional N-gram language models to neural language models over the past two decades \citep{bengio2003neural}. Traditional N-gram approaches rely on Markov assumption, which usually has a high cost to learn long-distance dependency. The introduction of RNN-based language model relieves such burden by computing the conditional probability of a word given all previous words using hidden state\citep{mikolov2010recurrent}. Despite the difference of model architectures, statistical language models factorize the probability of joint probability of a given sequence $S = (w_1, ..., w_N)$ into conditional probabilities: $P(S) = \prod\limits_{t=1}^N P(w_t | w_{m:t - 1})$, where $w_{m:t}$ is the sequence $w_m, w_{m + 1}, ..., w_t$. Notice that when $m = t - N + 1$, the factorization is for N-gram models, whereas when $m = 1$, the conditional probability is based on all previous words.
+
+Although RNN-based language models have higher generalizability by capturing long-distance information, they may in practice encounter overfitting issues \citep{srivastava2014dropout}. A general goal of language model is to capture both the syntax and the semantic coherence in the language. Syntactic structures mostly depend on local context, and semantic dependencies can have arbitrary long distance.
+
+Probabilistic topic model is one way to learn such semantic coherence \citep{blei2009topic}. A general goal of probabilistic topic models is to learn abstract topics formed by groups of words and to express documents as combinations of those topics. By doing so, such abstract topics are then embedded with semantic dependencies over the words and could potentially be utilized by language model to capture long-distance information without overfitting.
+
+Previous approach that incorporates topic model \citep{dieng2016topicrnn} shows that such approach can help improving the perplexity of language models. Their approach only excludes the effects of stop words and the topic model remains global. In general, a sentence only contains a subset of the global topics in a document. If we consider the global semantics for every sentence equally, local topic alternation is then ignored and may affect the precision of modelling sentences.
+
+State-of-the-art approach of language model \citep{yang2017breaking} views the task as a matrix factorization problem and introduces mixture of softmax (MoS) to allow the probability matrix to have high rank in order to increase the expressiveness of a language model. However, the learned latent states may be hardly interpretable due to the nature of deep neural networks.
+
+\section{Preliminary Experiment}
+\label{experiment}
+To evaluate our model, we will first compare the model perplexities over language modelling datasets, such as Penn Treebank (PTB) and WikiText. After that, we would also want to test its performance on downstream tasks - text generation and document ontology classification and ranking.
+
+\section{Evaluation}
+\label{evaluation}
+Evaluation will be based on my completion of each goal set during meetings. Progress will also be evaluated on the documentation of code written and the error analysis on my implementation of the system. Specific goals will be adjusted based on feedback given in meetings.
+
+\section{Timeline}
+\label{timeline}
+Specific dates will be adjusted as the need arises.
+
+September 20th, 2018: Finish implementing the baseline language models if needed
+
+September 27th, 2018: Finish analysis on baseline language models
+
+October 11th, 2018: Finish designing a language model that can incorporate Haw-Shiuan's topic model
+
+November 1st, 2018: Finish implementing the designed language model
+
+November 15th, 2018: Complete some experiments and analysis on the language model
+
+November 29th, 2018: Complete all the experiments and analysis on the language model
+
+December 6th, 2018: Finish fist draft for submitting to NAACL
+
+January 24th, 2019: Start working on downstream tasks
+
+February 7th, 2019: Finish implementing the baseline models for text generation and document ontology classification and ranking if needed
+
+February 14th, 2019: Finish analysis on baseline models
+
+March 7th, 2019: Finish designing and implementing the text generation model
+
+March 21th, 2019: Complete all the experiments and analysis on the text generation model
+
+April 11th, 2019: Finish designing and implementing the document ontology classification and ranking model
+
+April 25th, 2019: Complete all the experiments and analysis on the document ontology classification and ranking model
+
+May 2nd, 2019: Finish the first draft of final report
+
+May 9th, 2019: Submit the final report
+
+\bibliography{proposal}
+\bibliographystyle{acl_natbib}
+
+\appendix
+
+\end{document}
